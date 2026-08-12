@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laboratorio Virtual - MRU y MRUV</title>
+<style>
+body{font-family:Arial,sans-serif;margin:0;background:#f4f6f8;color:#20262e}
+header{background:#17365d;color:white;padding:24px;text-align:center}
+main{max-width:1100px;margin:20px auto;padding:0 16px}
+.card{background:white;border-radius:12px;padding:18px;margin:16px 0;box-shadow:0 2px 8px #0001}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+label{font-weight:bold;display:block;margin-bottom:5px}
+input{width:100%;box-sizing:border-box;padding:8px;border:1px solid #bbb;border-radius:6px}
+button{padding:10px 16px;border:0;border-radius:7px;background:#17365d;color:white;cursor:pointer;margin:4px}
+button.secondary{background:#68737d}
+canvas{width:100%;height:300px;border:1px solid #ccc;border-radius:8px;background:#fff}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{border:1px solid #bbb;padding:7px;text-align:center}
+th{background:#e9eef5}
+.note{background:#eef5ff;padding:12px;border-left:4px solid #17365d}
+.result{font-size:1.05em;line-height:1.7}
+</style>
+</head>
+<body>
+<header>
+<h1>🔬 Laboratorio Virtual de Física</h1>
+<h2>Explorando el MRU y el MRUV</h2>
+<p>Grado 8.º · Movimiento, gráficas y ecuaciones</p>
+</header>
+<main>
+<div class="card">
+<h2>1. Objetivos</h2>
+<ul>
+<li>Diferenciar MRU y MRUV a partir de la observación de su movimiento.</li>
+<li>Analizar la relación entre posición, velocidad, aceleración y tiempo.</li>
+<li>Construir e interpretar gráficas posición-tiempo y velocidad-tiempo.</li>
+<li>Relacionar los resultados con las ecuaciones del movimiento.</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>2. Simulación</h2>
+<p>Modifica los valores y observa cómo cambia el movimiento. Pulsa <b>Iniciar</b> para ejecutar la simulación.</p>
+<div class="controls">
+<div><label>Posición inicial x₀ (m)</label><input id="x0" type="number" value="0" step="0.5"></div>
+<div><label>Velocidad inicial v₀ (m/s)</label><input id="v0" type="number" value="0" step="0.5"></div>
+<div><label>Aceleración a (m/s²)</label><input id="acc" type="number" value="1" step="0.1"></div>
+<div><label>Duración (s)</label><input id="duration" type="number" value="8" min="2" max="20" step="1"></div>
+</div>
+<button onclick="start()">Iniciar / reiniciar</button>
+<button class="secondary" onclick="pause()">Pausar</button>
+<button class="secondary" onclick="reset()">Borrar</button>
+<div class="result">
+Tiempo: <b id="tshow">0.00</b> s · Posición: <b id="xshow">0.00</b> m · Velocidad: <b id="vshow">0.00</b> m/s · Aceleración: <b id="ashow">0.00</b> m/s²
+</div>
+<canvas id="motion" width="1000" height="300"></canvas>
+</div>
+
+<div class="card">
+<h2>3. Datos de la simulación</h2>
+<table>
+<thead><tr><th>t (s)</th><th>x (m)</th><th>v (m/s)</th><th>a (m/s²)</th></tr></thead>
+<tbody id="data"></tbody>
+</table>
+</div>
+
+<div class="card">
+<h2>4. Gráfica posición - tiempo</h2>
+<canvas id="px" width="1000" height="300"></canvas>
+</div>
+
+<div class="card">
+<h2>5. Gráfica velocidad - tiempo</h2>
+<canvas id="vt" width="1000" height="300"></canvas>
+</div>
+
+<div class="card">
+<h2>6. Ecuaciones</h2>
+<div class="note">
+<p><b>Posición:</b> x = x₀ + v₀t + ½at²</p>
+<p><b>Velocidad:</b> v = v₀ + at</p>
+<p><b>Aceleración:</b> a = (v − v₀)/t</p>
+</div>
+<p>Para un MRU, establece <b>a = 0</b>. Para un MRUV, utiliza un valor diferente de cero.</p>
+</div>
+
+<div class="card">
+<h2>7. Guía de trabajo para el estudiante</h2>
+<h3>Experimento A — MRU</h3>
+<p>Configura: x₀ = 0 m, v₀ = 2 m/s, a = 0 m/s² y duración = 8 s.</p>
+<ol>
+<li>Ejecuta la simulación.</li>
+<li>Registra al menos cinco pares de valores tiempo-posición.</li>
+<li>Observa la gráfica posición-tiempo.</li>
+<li>¿Qué ocurre con la velocidad?</li>
+<li>¿Cómo es la gráfica?</li>
+</ol>
+
+<h3>Experimento B — MRUV desde el reposo</h3>
+<p>Configura: x₀ = 0 m, v₀ = 0 m/s, a = 1 m/s² y duración = 8 s.</p>
+<ol>
+<li>Ejecuta la simulación.</li>
+<li>Registra cinco datos.</li>
+<li>Observa cómo cambia la velocidad.</li>
+<li>Analiza la forma de la gráfica posición-tiempo.</li>
+<li>Observa la gráfica velocidad-tiempo.</li>
+</ol>
+
+<h3>Experimento C — Cambiando la aceleración</h3>
+<p>Repite el experimento con a = 0.5 m/s² y después con a = 2 m/s².</p>
+<ol>
+<li>Compara las velocidades finales.</li>
+<li>Compara las gráficas posición-tiempo.</li>
+<li>¿Qué efecto produce aumentar la aceleración?</li>
+</ol>
+
+<h3>Experimento D — Velocidad inicial</h3>
+<p>Configura x₀ = 0 m, v₀ = 3 m/s y a = 1 m/s².</p>
+<ol>
+<li>Compara este movimiento con el Experimento B.</li>
+<li>¿Qué diferencia produce tener una velocidad inicial distinta de cero?</li>
+</ol>
+
+<h3>Preguntas finales</h3>
+<ol>
+<li>¿Cuál es la diferencia fundamental entre MRU y MRUV?</li>
+<li>¿Cómo se identifica un MRU en la gráfica posición-tiempo?</li>
+<li>¿Cómo se identifica un MRUV en la gráfica posición-tiempo?</li>
+<li>¿Qué representa la pendiente de la gráfica velocidad-tiempo?</li>
+<li>¿Qué ocurre con la velocidad cuando la aceleración es positiva?</li>
+<li>¿Qué ocurre cuando la aceleración es cero?</li>
+<li>Explica con tus palabras cómo se relacionan posición, velocidad, aceleración y tiempo.</li>
+</ol>
+</div>
+</main>
+<script>
+let running=false, paused=false, startTime=0, elapsed=0, timer=null, samples=[];
+const $=id=>document.getElementById(id);
+function vals(){return {x0:+$('x0').value,v0:+$('v0').value,a:+$('acc').value,d:+$('duration').value};}
+function start(){reset(false); running=true; paused=false; startTime=performance.now(); timer=setInterval(tick,40);}
+function pause(){paused=!paused; if(!paused){startTime=performance.now()-elapsed*1000;}}
+function reset(clear=true){running=false;paused=false;if(timer)clearInterval(timer);elapsed=0;samples=[];$('tshow').textContent='0.00';$('xshow').textContent='0.00';$('vshow').textContent='0.00';drawMotion(0,0);if(clear){$('data').innerHTML='';drawGraph('px',[], 't (s)','x (m)');drawGraph('vt',[], 't (s)','v (m/s)');}}
+function tick(){if(!running||paused)return;let q=vals();elapsed=(performance.now()-startTime)/1000;if(elapsed>=q.d){elapsed=q.d; running=false;clearInterval(timer);}let x=q.x0+q.v0*elapsed+0.5*q.a*elapsed*elapsed;let v=q.v0+q.a*elapsed;$('tshow').textContent=elapsed.toFixed(2);$('xshow').textContent=x.toFixed(2);$('vshow').textContent=v.toFixed(2);$('ashow').textContent=q.a.toFixed(2);drawMotion(x,elapsed);if(!samples.length||elapsed-samples[samples.length-1].t>=0.5)samples.push({t:elapsed,x:x,v:v,a:q.a});renderTable();drawGraph('px',samples.map(s=>[s.t,s.x]),'t (s)','x (m)');drawGraph('vt',samples.map(s=>[s.t,s.v]),'t (s)','v (m/s)');}
+function renderTable(){ $('data').innerHTML=samples.map(s=>`<tr><td>${s.t.toFixed(2)}</td><td>${s.x.toFixed(2)}</td><td>${s.v.toFixed(2)}</td><td>${s.a.toFixed(2)}</td></tr>`).join('');}
+function ctx(id){return $(id).getContext('2d');}
+function clearC(id){let c=$(id),g=c.getContext('2d');g.clearRect(0,0,c.width,c.height);}
+function drawMotion(x,t){let c=$('motion'),g=c.getContext('2d');g.clearRect(0,0,c.width,c.height);g.strokeStyle='#888';g.lineWidth=2;g.beginPath();g.moveTo(50,170);g.lineTo(950,170);g.stroke();for(let i=0;i<=10;i++){let px=50+i*90;g.beginPath();g.moveTo(px,165);g.lineTo(px,175);g.stroke();g.fillText(i+' m',px-8,195);}let max=Math.max(10,Math.abs(x)+2),px=50+(x/max)*900;px=Math.max(55,Math.min(945,px));g.fillStyle='#17365d';g.beginPath();g.arc(px,150,16,0,Math.PI*2);g.fill();g.fillStyle='#222';g.fillText('Objeto',px-20,125);}
+function drawGraph(id,pts,xlab,ylab){let c=$(id),g=c.getContext('2d');g.clearRect(0,0,c.width,c.height);g.font='14px Arial';g.strokeStyle='#bbb';g.beginPath();g.moveTo(60,20);g.lineTo(60,270);g.lineTo(970,270);g.stroke();if(!pts.length){g.fillText('Ejecuta una simulación para generar la gráfica.',300,145);return;}let maxT=Math.max(1, ...pts.map(p=>p[0]));let minY=Math.min(0,...pts.map(p=>p[1])),maxY=Math.max(1,...pts.map(p=>p[1]));let span=maxY-minY||1;g.fillStyle='#222';g.fillText(xlab,900,295);g.fillText(ylab,10,25);g.strokeStyle='#17365d';g.lineWidth=3;g.beginPath();pts.forEach((p,i)=>{let X=60+(p[0]/maxT)*900,Y=270-((p[1]-minY)/span)*230;i?g.lineTo(X,Y):g.moveTo(X,Y);});g.stroke();}
+reset();
+</script>
+</body>
+</html>
